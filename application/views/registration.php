@@ -1,40 +1,41 @@
 <! DOCTYPE html>
 <html>
 <head>
-<title>  first site  </title>
+<title>  registeration </title>
 <style>
 	
 	input{
-		padding:20px;
-		margin:20px;
+		padding:10px;
+		margin:10px;
 	}
-  .error{
-       color:red;
-  }
-</style>
+	fieldset
+	{
+		width: 40px;
+	}
+ </style>
 </head>
 <body>
  <!---form starts---->
  <fieldset  >
-  <form action="<?php echo base_url()?>main/regaction" method="POST" >
-    <span class="error"></span>  
-      <input type="text" name="fname"  placeholder="firstname" ></br>
-    
-          <input type="text" name="lname"  placeholder="lastname" ></br>
+  <form name="myform" action="<?php echo base_url()?>main/regaction" method="POST" > 
        
-         <input type="text" name="username"  placeholder="username" ></br>
-
-          <input type="password" name="password" placeholder="password"> </br>
-        
-           <input type="text" name="mobile"  placeholder="phoneno" ></br>
-           
-          <input type="email" name="email"  placeholder="email" > </br>
+        <input type="text" name="fname"  placeholder="firstname" pattern=".{3,}"   required title="3 characters minimum" maxlength="25"></br>
+    	  
+    	   <input type="text" name="lname"  placeholder="lastname" pattern=".{3,}"   required title="3 characters minimum"  maxlength="25"></br>
             
-               <input type="submit" name="submit" >
+            <input type="text" name="username"  placeholder="username" required pattern=".{3,}"   required title="3 characters minimum" maxlength="10"></br>
+			
+			<input type="password" name="password" placeholder="password" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}"> </br>
+        
+        <input type="text" name="mobile"  placeholder="phoneno" required minlength="10"maxlength="10"></br>
+      
+      <input type="email" name="email"  placeholder="email" required> </br>
+    
+    <input type="submit" name="submit" >
             </form>
             </fieldset>
  <!----form ends----->
-
+ 
 
 </body>
 </html>
