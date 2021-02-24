@@ -1,3 +1,5 @@
+
+  
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
@@ -20,25 +22,29 @@ class main extends CI_Controller {
 	 */
 	public function index()
 	{
-	
 		$this->load->view('registration');
-
 	}
+	//view for register
 	
 	public function register()
 	{
 		$this->load->view('registration');
 	}
+	//view for login
+	
 	public function login()
 	{
 		$this->load->view('login');
 	}
+	//view for details
+	
 	public function details()      
 	{
 		$this->load->model('mainmodel');
 		$data['n']=$this->mainmodel->details();
 		$this->load->view('details',$data);
 	}
+	//Registration action
 	
 	public function regaction()
 	{
@@ -61,12 +67,14 @@ class main extends CI_Controller {
 					"mobile"=>$this->input->post("mobile"),
 				"email"=>$this->input->post("email"));
 			$b=array("username"=>$this->input->post("username"),
-					"password"=>$encpass);
+					"password"=>$encpass,"user_type"=>'1');
 					 $this->mainmodel->regaction($a,$b);
 					 redirect(base_url().'main/details');
 
 		}
 	  }
+
+	  //approval 
 	  public function approve()
 	{
 		$this->load->model('mainmodel');
@@ -74,7 +82,7 @@ class main extends CI_Controller {
 		$this->mainmodel->approve($id);
 		redirect('main/details','refresh');
 	}
-
+	//reject
 	public function reject()
 	{
 		$this->load->model('mainmodel');
@@ -82,27 +90,32 @@ class main extends CI_Controller {
 		$this->mainmodel->reject($id);
 		redirect('main/details','refresh');
 	}
-	  
+
+	//login action  
 		public function techlog()
-	{
+		{
 		$this->load->library('form_validation');
-		$this->form_validation->set_rules("email","email",'required');
+		$this->form_validation->set_rules("username","username",'required');
 		$this->form_validation->set_rules("password","password",'required');
 		if($this->form_validation->run())
 		{
 			
 			$this->load->model('mainmodel');
-			$unm=$this->input->post("username");
+			$uname=$this->input->post("username");
 			$pass=$this->input->post("password");
-			$rslt=$this->mainmodel->selectpas($unm,$pass);
+			$rslt=$this->mainmodel->selectpass($uname,$pass);
 			if($rslt)
 			{
-				$id=$this->mainmodel->getusrid($unm);
-				$user=$this->mainmodel->getusr($id);
+				$id=$this->mainmodel->getuserid($uname);
+				$user=$this->mainmodel->getuser($id);
 				$this->load->library(array('session'));
-				$this->session->set_userdata(array('id'=>(int)$user->id,'status'=>$user->status));
+				$this->session->set_userdata(array('id'=>(int)$user->id,'status'=>$user->status,'user_type'=>$user->user_type));
 
-				if($_SESSION['status']=='1')
+				if($_SESSION['status']=='0'&& $_SESSION['user_type']=='0')
+				{
+					redirect(base_url().'main/details');
+				}
+				elseif ($_SESSION['status']=='1'&& $_SESSION['user_type']=='1') 
 				{
 					redirect(base_url().'main/details');
 				}
@@ -115,11 +128,9 @@ class main extends CI_Controller {
 			else
 			{
 				echo"invalid user";
-
 			}
-		    }
-
-
-	}
+		   }
+		}
 
 	}
+
