@@ -26,44 +26,46 @@ class mainmodel extends CI_model
 		}
 		public function approve($id)
 	{
-		$this->db->set('status','0');
+		$this->db->set('status','1');
 		$qry=$this->db->where('id',$id);
 		$qry=$this->db->update("login");
 		return $qry;
 	}
 	public function reject($id)
 	{
-		$this->db->set('status','1');
+		$this->db->set('status','2');
 		$qry=$this->db->where('id',$id);
 		$qry=$this->db->update("login");
 		return $qry;
 	}
-	public function getusrid($unm)
+	public function getuserid($uname)
 		{
 			$this->db->select('id');
 			$this->db->from("login");
-			$this->db->where("username",$unm);
+			$this->db->where("username",$uname);
 			return $this->db->get()->row('id');
 		}
-		public function getusr($id)
+		public function getuser($id)
 		{
 			$this->db->select('*');
 			$this->db->from("login");
 			$this->db->where("id",$id);
 			return $this->db->get()->row();
 		}
-			public function selectpass($num,$pass)
-	{
-		$this->db->select('password');
-		$this->db->from("login");
-		$this->db->where("username",$unm);
-		$qry=$this->db->get()->row('password');
-		return $this->verifypass($pass,$qry);
-	}
-	public function verifypass($pass,$qry)
+
+			public function verifypass($pass,$qry)
 	{
 		return password_verify($pass,$qry);
 	}
+			public function selectpass($uname,$pass)
+	{
+		$this->db->select('password');
+		$this->db->from("login");
+		$this->db->where("username",$uname);
+		$qry=$this->db->get()->row('password');
+		return $this->verifypass($pass,$qry);
+	}
+
 }
 
 
