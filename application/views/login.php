@@ -22,11 +22,11 @@
 						<tr>
 							
 							<td>username</td>
-						<td><input type="text" name="username" value="">
+						<td><input type="text" name="username" required>
 							</td></tr>
 							<tr>
 							<td>Password</td>
-						<td><input type="password" name="password" value="">
+						<td><input type="password" name="password" required >
 							</td></tr>
 
 						<tr>
